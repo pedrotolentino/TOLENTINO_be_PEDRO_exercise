@@ -1,7 +1,7 @@
 package com.ecore.roles.service;
 
 import com.ecore.roles.client.TeamsClient;
-import com.ecore.roles.client.model.Team;
+import com.ecore.roles.model.Team;
 import com.ecore.roles.service.impl.TeamsServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

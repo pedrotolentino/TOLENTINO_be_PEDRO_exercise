@@ -1,0 +1,59 @@
+-------------------------------------------------------------------------------
+Test set: com.ecore.roles.api.RolesApiTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 7, Errors: 1, Skipped: 0, Time elapsed: 0.784 s <<< FAILURE! - in com.ecore.roles.api.RolesApiTest
+shouldGetRoleById  Time elapsed: 0.022 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <405>.
+
+	at com.ecore.roles.api.RolesApiTest.shouldGetRoleById(RolesApiTest.java:122)
+
+shouldCreateNewRole  Time elapsed: 0.078 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <201> but was <200>.
+
+	at com.ecore.roles.api.RolesApiTest.shouldCreateNewRole(RolesApiTest.java:76)
+
+shouldGetRoleByUserIdAndTeamId  Time elapsed: 0.063 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <201> but was <200>.
+
+	at com.ecore.roles.api.RolesApiTest.shouldGetRoleByUserIdAndTeamId(RolesApiTest.java:137)
+
+shouldFailToGetRoleById  Time elapsed: 0.033 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <404> but was <405>.
+
+	at com.ecore.roles.api.RolesApiTest.shouldFailToGetRoleById(RolesApiTest.java:129)
+
+shouldGetAllRoles  Time elapsed: 0.071 s  <<< ERROR!
+com.fasterxml.jackson.databind.exc.MismatchedInputException: 
+Cannot deserialize value of type `[Lcom.ecore.roles.web.dto.RoleDto;` from Object value (token `JsonToken.START_OBJECT`)
+ at [Source: (String)"{"timestamp":"2023-05-18T03:39:34.952+00:00","status":405,"error":"Method Not Allowed","path":"/v1/roles"}"; line: 1, column: 1]
+	at com.ecore.roles.api.RolesApiTest.shouldGetAllRoles(RolesApiTest.java:109)
+
+shouldFailToGetRoleByUserIdAndTeamIdWhenMissingTeamId  Time elapsed: 0.029 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <400> but was <405>.
+
+	at com.ecore.roles.api.RolesApiTest.shouldFailToGetRoleByUserIdAndTeamIdWhenMissingTeamId(RolesApiTest.java:153)
+
+shouldFailToGetRoleByUserIdAndTeamIdWhenMissingUserId  Time elapsed: 0.04 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <400> but was <405>.
+
+	at com.ecore.roles.api.RolesApiTest.shouldFailToGetRoleByUserIdAndTeamIdWhenMissingUserId(RolesApiTest.java:147)
+
+shouldFailToGetRoleByUserIdAndTeamIdWhenItDoesNotExist  Time elapsed: 0.03 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <404> but was <405>.
+
+	at com.ecore.roles.api.RolesApiTest.shouldFailToGetRoleByUserIdAndTeamIdWhenItDoesNotExist(RolesApiTest.java:160)
+

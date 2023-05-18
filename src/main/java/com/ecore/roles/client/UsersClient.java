@@ -1,6 +1,6 @@
 package com.ecore.roles.client;
 
-import com.ecore.roles.client.model.User;
+import com.ecore.roles.model.User;
 import com.ecore.roles.configuration.ClientsConfigurationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;

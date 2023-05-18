@@ -1,6 +1,6 @@
 package com.ecore.roles.service;
 
-import com.ecore.roles.client.model.User;
+import com.ecore.roles.model.User;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package com.ecore.roles.service;
 
 import com.ecore.roles.client.UsersClient;
-import com.ecore.roles.client.model.User;
+import com.ecore.roles.model.User;
 import com.ecore.roles.service.impl.UsersServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

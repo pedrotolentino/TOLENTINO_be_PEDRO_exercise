@@ -2,8 +2,8 @@ package com.ecore.roles.utils;
 
 import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
-import com.ecore.roles.web.dto.MembershipDto;
-import com.ecore.roles.web.dto.RoleDto;
+import com.ecore.roles.model.dto.MembershipDto;
+import com.ecore.roles.model.dto.RoleDto;
 import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
 import io.restassured.response.ExtractableResponse;

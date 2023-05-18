@@ -1,7 +1,7 @@
 package com.ecore.roles.service.impl;
 
 import com.ecore.roles.client.UsersClient;
-import com.ecore.roles.client.model.User;
+import com.ecore.roles.model.User;
 import com.ecore.roles.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

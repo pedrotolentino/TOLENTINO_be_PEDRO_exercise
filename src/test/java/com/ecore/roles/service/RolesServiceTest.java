@@ -34,7 +34,7 @@ class RolesServiceTest {
     private MembershipRepository membershipRepository;
 
     @Mock
-    private MembershipsService membershipsService;
+    private MembershipService membershipService;
 
     @Test
     public void shouldCreateRole() {

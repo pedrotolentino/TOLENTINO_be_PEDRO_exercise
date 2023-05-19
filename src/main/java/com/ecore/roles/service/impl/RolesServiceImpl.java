@@ -5,7 +5,7 @@ import com.ecore.roles.exception.ResourceNotFoundException;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.repository.MembershipRepository;
 import com.ecore.roles.repository.RoleRepository;
-import com.ecore.roles.service.MembershipsService;
+import com.ecore.roles.service.MembershipService;
 import com.ecore.roles.service.RolesService;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
@@ -23,16 +23,16 @@ public class RolesServiceImpl implements RolesService {
 
     private final RoleRepository roleRepository;
     private final MembershipRepository membershipRepository;
-    private final MembershipsService membershipsService;
+    private final MembershipService membershipService;
 
     @Autowired
     public RolesServiceImpl(
             RoleRepository roleRepository,
             MembershipRepository membershipRepository,
-            MembershipsService membershipsService) {
+            MembershipService membershipService) {
         this.roleRepository = roleRepository;
         this.membershipRepository = membershipRepository;
-        this.membershipsService = membershipsService;
+        this.membershipService = membershipService;
     }
 
     @Override

@@ -45,25 +45,4 @@ public class MembershipDto {
     @EqualsAndHashCode.Include
     private UUID teamId;
 
-    public static MembershipDto fromModel(Membership membership) {
-        if (membership == null) {
-            return null;
-        }
-        return MembershipDto.builder()
-                .id(membership.getId())
-                .roleId(ofNullable(membership.getRole()).map(Role::getId).orElse(null))
-                .userId(membership.getUserId())
-                .teamId(membership.getTeamId())
-                .build();
-    }
-
-    public Membership toModel() {
-        return Membership.builder()
-                .id(this.id)
-                .role(Role.builder().id(this.roleId).build())
-                .userId(this.userId)
-                .teamId(this.teamId)
-                .build();
-    }
-
 }

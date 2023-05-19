@@ -1,5 +1,6 @@
 package com.ecore.roles.utils;
 
+import com.ecore.roles.mapper.MembershipMapper;
 import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.model.dto.MembershipDto;
@@ -62,7 +63,7 @@ public class RestAssuredHelper {
     }
 
     public static EcoreValidatableResponse createMembership(Membership membership) {
-        return sendRequest(givenNullableBody(MembershipDto.fromModel(membership))
+        return sendRequest(givenNullableBody(MembershipMapper.from(membership))
                 .contentType(JSON)
                 .when()
                 .post("/v1/roles/memberships")
@@ -73,7 +74,7 @@ public class RestAssuredHelper {
         return sendRequest(given()
                 .queryParam("roleId", roleId)
                 .when()
-                .get("/v1/roles/memberships/search")
+                .get("/v1/roles/memberships")
                 .then());
     }
 

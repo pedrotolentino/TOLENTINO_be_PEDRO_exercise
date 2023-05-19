@@ -40,18 +40,4 @@ public class UserDto {
     @JsonProperty
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String location;
-
-    public static UserDto fromModel(User user) {
-        if (user == null) {
-            return null;
-        }
-        return UserDto.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .displayName(user.getDisplayName())
-                .avatarUrl(user.getAvatarUrl())
-                .location(user.getLocation())
-                .build();
-    }
 }

@@ -34,16 +34,4 @@ public class TeamDto {
     @JsonProperty
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<UUID> teamMemberIds;
-
-    public static TeamDto fromModel(Team team) {
-        if (team == null) {
-            return null;
-        }
-        return TeamDto.builder()
-                .id(team.getId())
-                .name(team.getName())
-                .teamLeadId(team.getTeamLeadId())
-                .teamMemberIds(team.getTeamMemberIds())
-                .build();
-    }
 }

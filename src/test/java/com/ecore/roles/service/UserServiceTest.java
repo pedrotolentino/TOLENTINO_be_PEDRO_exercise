@@ -1,8 +1,8 @@
 package com.ecore.roles.service;
 
-import com.ecore.roles.client.UsersClient;
+import com.ecore.roles.client.UserClient;
 import com.ecore.roles.model.User;
-import com.ecore.roles.service.impl.UsersServiceImpl;
+import com.ecore.roles.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,17 +17,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UsersServiceTest {
+class UserServiceTest {
 
     @InjectMocks
-    private UsersServiceImpl usersService;
+    private UserServiceImpl usersService;
     @Mock
-    private UsersClient usersClient;
+    private UserClient userClient;
 
     @Test
     void shouldGetUserWhenUserIdExists() {
         User gianniUser = GIANNI_USER();
-        when(usersClient.getUser(UUID_1))
+        when(userClient.getUser(UUID_1))
                 .thenReturn(ResponseEntity
                         .status(HttpStatus.OK)
                         .body(gianniUser));

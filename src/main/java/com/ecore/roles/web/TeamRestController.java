@@ -1,11 +1,13 @@
 package com.ecore.roles.web;
 
-import com.ecore.roles.service.TeamsService;
+import com.ecore.roles.mapper.TeamMapper;
 import com.ecore.roles.model.dto.TeamDto;
+import com.ecore.roles.service.TeamService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,33 +15,31 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.ecore.roles.model.dto.TeamDto.fromModel;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/v1/teams")
-public class TeamsRestController {
+public class TeamRestController {
 
-    private final TeamsService teamsService;
+    private final TeamService teamService;
 
-    @PostMapping(
+    @GetMapping(
             produces = {"application/json"})
     public ResponseEntity<List<TeamDto>> getTeams() {
         return ResponseEntity
-                .status(200)
-                .body(teamsService.getTeams().stream()
-                        .map(TeamDto::fromModel)
+                .status(HttpStatus.OK)
+                .body(teamService.getTeams().stream()
+                        .map(TeamMapper::from)
                         .collect(Collectors.toList()));
     }
 
-    @PostMapping(
+    @GetMapping(
             path = "/{teamId}",
             produces = {"application/json"})
     public ResponseEntity<TeamDto> getTeam(
             @PathVariable UUID teamId) {
         return ResponseEntity
-                .status(200)
-                .body(fromModel(teamsService.getTeam(teamId)));
+                .status(HttpStatus.OK)
+                .body(TeamMapper.from(teamService.getTeam(teamId)));
     }
 
 }

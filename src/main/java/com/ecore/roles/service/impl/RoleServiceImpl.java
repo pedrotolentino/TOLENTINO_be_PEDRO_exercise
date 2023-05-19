@@ -2,60 +2,53 @@ package com.ecore.roles.service.impl;
 
 import com.ecore.roles.exception.ResourceExistsException;
 import com.ecore.roles.exception.ResourceNotFoundException;
+import com.ecore.roles.mapper.RoleMapper;
 import com.ecore.roles.model.Role;
-import com.ecore.roles.repository.MembershipRepository;
+import com.ecore.roles.model.dto.RoleDto;
 import com.ecore.roles.repository.RoleRepository;
-import com.ecore.roles.service.MembershipService;
-import com.ecore.roles.service.RolesService;
+import com.ecore.roles.service.RoleService;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
-public class RolesServiceImpl implements RolesService {
-
-    public static final String DEFAULT_ROLE = "Developer";
+public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
-    private final MembershipRepository membershipRepository;
-    private final MembershipService membershipService;
 
-    @Autowired
-    public RolesServiceImpl(
-            RoleRepository roleRepository,
-            MembershipRepository membershipRepository,
-            MembershipService membershipService) {
+    public RoleServiceImpl(
+            RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
-        this.membershipRepository = membershipRepository;
-        this.membershipService = membershipService;
     }
 
     @Override
-    public Role CreateRole(@NonNull Role r) {
-        if (roleRepository.findByName(r.getName()).isPresent()) {
+    public RoleDto createRole(RoleDto roleDto) {
+        Role role = RoleMapper.from(roleDto);
+
+        if (roleRepository.findByName(role.getName()).isPresent()) {
             throw new ResourceExistsException(Role.class);
         }
-        return roleRepository.save(r);
+
+        return RoleMapper.from(roleRepository.save(role));
     }
 
     @Override
-    public Role GetRole(@NonNull UUID rid) {
-        return roleRepository.findById(rid)
-                .orElseThrow(() -> new ResourceNotFoundException(Role.class, rid));
+    public RoleDto getRole(@NonNull UUID roleId) {
+        Role role =  roleRepository.findById(roleId)
+                .orElseThrow(() -> new ResourceNotFoundException(Role.class, roleId));
+
+        return RoleMapper.from(role);
     }
 
     @Override
-    public List<Role> GetRoles() {
-        return roleRepository.findAll();
-    }
-
-    private Role getDefaultRole() {
-        return roleRepository.findByName(DEFAULT_ROLE)
-                .orElseThrow(() -> new IllegalStateException("Default role is not configured"));
+    public List<RoleDto> getRoles() {
+        return roleRepository.findAll().stream()
+                .map(RoleMapper::from)
+                .collect(Collectors.toList());
     }
 }

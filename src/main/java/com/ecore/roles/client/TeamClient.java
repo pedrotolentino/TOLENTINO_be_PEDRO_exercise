@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
-public class TeamsClient {
+public class TeamClient {
 
     private final RestTemplate restTemplate;
     private final ClientsConfigurationProperties clientsConfigurationProperties;

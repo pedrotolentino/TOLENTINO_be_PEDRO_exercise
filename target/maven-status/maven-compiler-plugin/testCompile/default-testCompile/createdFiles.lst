@@ -1,0 +1,10 @@
+com/ecore/roles/service/TeamsServiceTest.class
+com/ecore/roles/service/UsersServiceTest.class
+com/ecore/roles/service/MembershipsServiceTest.class
+com/ecore/roles/utils/TestData.class
+com/ecore/roles/api/RolesApiTest.class
+com/ecore/roles/api/MembershipsApiTests.class
+com/ecore/roles/service/RolesServiceTest.class
+com/ecore/roles/utils/MockUtils.class
+com/ecore/roles/utils/RestAssuredHelper$EcoreValidatableResponse.class
+com/ecore/roles/utils/RestAssuredHelper.class

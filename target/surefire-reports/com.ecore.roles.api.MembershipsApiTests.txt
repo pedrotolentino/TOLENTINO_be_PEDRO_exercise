@@ -1,0 +1,56 @@
+-------------------------------------------------------------------------------
+Test set: com.ecore.roles.api.MembershipsApiTests
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 7, Errors: 0, Skipped: 0, Time elapsed: 45.528 s <<< FAILURE! - in com.ecore.roles.api.MembershipsApiTests
+shouldFailToGetAllMembershipsWhenRoleIdIsNull  Time elapsed: 5.835 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <400> but was <405>.
+
+	at com.ecore.roles.api.MembershipsApiTests.shouldFailToGetAllMembershipsWhenRoleIdIsNull(MembershipsApiTests.java:161)
+
+shouldFailToAssignRoleWhenMembershipIsInvalid  Time elapsed: 0.495 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <400> but was <200>.
+
+	at com.ecore.roles.api.MembershipsApiTests.shouldFailToAssignRoleWhenMembershipIsInvalid(MembershipsApiTests.java:131)
+
+shouldGetAllMemberships  Time elapsed: 0.078 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <201> but was <200>.
+
+	at com.ecore.roles.api.MembershipsApiTests.createDefaultMembership(MembershipsApiTests.java:169)
+	at com.ecore.roles.api.MembershipsApiTests.shouldGetAllMemberships(MembershipsApiTests.java:137)
+
+shouldGetAllMembershipsButReturnsEmptyList  Time elapsed: 0.058 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <200> but was <405>.
+
+	at com.ecore.roles.api.MembershipsApiTests.shouldGetAllMembershipsButReturnsEmptyList(MembershipsApiTests.java:152)
+
+shouldFailToCreateRoleMembershipWhenMembershipAlreadyExists  Time elapsed: 0.059 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <201> but was <200>.
+
+	at com.ecore.roles.api.MembershipsApiTests.createDefaultMembership(MembershipsApiTests.java:169)
+	at com.ecore.roles.api.MembershipsApiTests.shouldFailToCreateRoleMembershipWhenMembershipAlreadyExists(MembershipsApiTests.java:101)
+
+shouldFailToCreateRoleMembershipWhenTeamDoesNotExist  Time elapsed: 0.065 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <404> but was <200>.
+
+	at com.ecore.roles.api.MembershipsApiTests.shouldFailToCreateRoleMembershipWhenTeamDoesNotExist(MembershipsApiTests.java:122)
+
+shouldCreateRoleMembership  Time elapsed: 0.037 s  <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <201> but was <200>.
+
+	at com.ecore.roles.api.MembershipsApiTests.createDefaultMembership(MembershipsApiTests.java:169)
+	at com.ecore.roles.api.MembershipsApiTests.shouldCreateRoleMembership(MembershipsApiTests.java:51)
+

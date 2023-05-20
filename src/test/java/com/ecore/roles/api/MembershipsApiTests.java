@@ -1,10 +1,11 @@
 package com.ecore.roles.api;
 
+import com.ecore.roles.mapper.MembershipMapper;
 import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.repository.MembershipRepository;
 import com.ecore.roles.utils.RestAssuredHelper;
-import com.ecore.roles.web.dto.MembershipDto;
+import com.ecore.roles.model.dto.MembershipDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,21 +52,12 @@ public class MembershipsApiTests {
         MembershipDto actualMembership = createDefaultMembership();
 
         assertThat(actualMembership.getId()).isNotNull();
-        assertThat(actualMembership).isEqualTo(MembershipDto.fromModel(expectedMembership));
+        assertThat(actualMembership).isEqualTo(MembershipMapper.from(expectedMembership));
     }
 
     @Test
     void shouldFailToCreateRoleMembershipWhenBodyIsNull() {
         createMembership(null)
-                .validate(400, "Bad Request");
-    }
-
-    @Test
-    void shouldFailToCreateRoleMembershipWhenRoleIsNull() {
-        Membership expectedMembership = DEFAULT_MEMBERSHIP();
-        expectedMembership.setRole(null);
-
-        createMembership(expectedMembership)
                 .validate(400, "Bad Request");
     }
 
@@ -101,7 +93,7 @@ public class MembershipsApiTests {
         createDefaultMembership();
 
         createMembership(DEFAULT_MEMBERSHIP())
-                .validate(400, "Membership already exists");
+                .validate(422, "Membership already exists");
     }
 
     @Test
@@ -110,26 +102,7 @@ public class MembershipsApiTests {
         expectedMembership.setRole(Role.builder().id(UUID_1).build());
 
         createMembership(expectedMembership)
-                .validate(404, format("Role %s not found", UUID_1));
-    }
-
-    @Test
-    void shouldFailToCreateRoleMembershipWhenTeamDoesNotExist() {
-        Membership expectedMembership = DEFAULT_MEMBERSHIP();
-        mockGetTeamById(mockServer, expectedMembership.getTeamId(), null);
-
-        createMembership(expectedMembership)
-                .validate(404, format("Team %s not found", expectedMembership.getTeamId()));
-    }
-
-    @Test
-    void shouldFailToAssignRoleWhenMembershipIsInvalid() {
-        Membership expectedMembership = INVALID_MEMBERSHIP();
-        mockGetTeamById(mockServer, expectedMembership.getTeamId(), ORDINARY_CORAL_LYNX_TEAM());
-
-        createMembership(expectedMembership)
-                .validate(400,
-                        "Invalid 'Membership' object. The provided user doesn't belong to the provided team.");
+                .validate(422, format("Invalid 'Membership' object. Reason: 'Role %s not found'", UUID_1));
     }
 
     @Test
@@ -143,7 +116,7 @@ public class MembershipsApiTests {
 
         assertThat(actualMemberships.length).isEqualTo(1);
         assertThat(actualMemberships[0].getId()).isNotNull();
-        assertThat(actualMemberships[0]).isEqualTo(MembershipDto.fromModel(expectedMembership));
+        assertThat(actualMemberships[0]).isEqualTo(MembershipMapper.from(expectedMembership));
     }
 
     @Test

@@ -59,7 +59,7 @@ public class RestAssuredHelper {
                 .queryParam("teamMemberId", userId)
                 .queryParam("teamId", teamId)
                 .when()
-                .get("/v1/roles/search")
+                .get("/v1/roles")
                 .then());
     }
 

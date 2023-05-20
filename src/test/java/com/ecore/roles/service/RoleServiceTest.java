@@ -2,6 +2,7 @@ package com.ecore.roles.service;
 
 import com.ecore.roles.exception.ResourceExistsException;
 import com.ecore.roles.exception.ResourceNotFoundException;
+import com.ecore.roles.mapper.MembershipMapper;
 import com.ecore.roles.mapper.RoleMapper;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.model.dto.RoleDto;
@@ -18,9 +19,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE;
-import static com.ecore.roles.utils.TestData.UUID_1;
+import static com.ecore.roles.utils.TestData.*;
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -33,6 +34,15 @@ class RoleServiceTest {
 
     @Mock
     private RoleRepository roleRepository;
+
+    @Mock
+    private MembershipService membershipService;
+
+    @Mock
+    private UserService userService;
+
+    @Mock
+    private TeamService teamService;
 
     @Test
     public void shouldCreateRole() {
@@ -103,7 +113,7 @@ class RoleServiceTest {
         List<RoleDto> actualRoles = rolesService.getRoles();
 
         assertNotNull(actualRoles);
-        assertTrue(actualRoles.size() > 0);
+        assertThat(actualRoles.size()).isGreaterThan(0);
     }
 
     @Test
@@ -115,5 +125,71 @@ class RoleServiceTest {
 
         assertNotNull(actualRoles);
         assertEquals(0, actualRoles.size());
+    }
+
+    @Test
+    public void shouldGetRoleListByUserIdAndTeamId() {
+        List<RoleDto> expectedRoleList = Collections.singletonList(RoleMapper.from(DEVELOPER_ROLE()));
+
+        when(userService.getUser(GIANNI_USER_UUID))
+                .thenReturn(GIANNI_USER());
+        when(teamService.getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID))
+                .thenReturn(ORDINARY_CORAL_LYNX_TEAM());
+        when(membershipService.getMemberships(GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID))
+                .thenReturn(Collections.singletonList(MembershipMapper.from(DEFAULT_MEMBERSHIP())));
+        when(roleRepository.findAllById(Collections.singletonList(DEVELOPER_ROLE_UUID)))
+                .thenReturn(Collections.singletonList(DEVELOPER_ROLE()));
+
+        List<RoleDto> actualRole = rolesService.getRoles(GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID);
+
+        assertNotNull(actualRole);
+        assertThat(actualRole.size()).isGreaterThan(0);
+        assertThat(actualRole).contains(RoleMapper.from(DEVELOPER_ROLE()));
+    }
+
+    @Test
+    public void shouldGetEmptyRoleListByUserIdAndTeamId() {
+        List<RoleDto> expectedRoleList = Collections.singletonList(RoleMapper.from(DEVELOPER_ROLE()));
+
+        when(userService.getUser(GIANNI_USER_UUID))
+                .thenReturn(GIANNI_USER());
+        when(teamService.getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID))
+                .thenReturn(ORDINARY_CORAL_LYNX_TEAM());
+        when(membershipService.getMemberships(GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID))
+                .thenReturn(Collections.singletonList(MembershipMapper.from(DEFAULT_MEMBERSHIP())));
+        when(roleRepository.findAllById(Collections.singletonList(DEVELOPER_ROLE_UUID)))
+                .thenReturn(Collections.emptyList());
+
+        List<RoleDto> actualRole = rolesService.getRoles(GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID);
+
+        assertNotNull(actualRole);
+        assertThat(actualRole.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void shouldFailToGetRoleListByUserIdAndTeamIdWhenUserDoesNotExists() {
+        when(userService.getUser(GIANNI_USER_UUID))
+                .thenReturn(null);
+
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
+                () -> rolesService.getRoles(GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID));
+
+        assertEquals(format("User %s not found", GIANNI_USER_UUID), exception.getMessage());
+        verify(userService, times(1)).getUser(any(UUID.class));
+    }
+
+    @Test
+    public void shouldFailToGetRoleListByUserIdAndTeamIdWhenTeamDoesNotExists() {
+        when(userService.getUser(GIANNI_USER_UUID))
+                .thenReturn(GIANNI_USER());
+        when(teamService.getTeam(ORDINARY_CORAL_LYNX_TEAM_UUID))
+                .thenReturn(null);
+
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
+                () -> rolesService.getRoles(GIANNI_USER_UUID, ORDINARY_CORAL_LYNX_TEAM_UUID));
+
+        assertEquals(format("Team %s not found", ORDINARY_CORAL_LYNX_TEAM_UUID), exception.getMessage());
+        verify(userService, times(1)).getUser(any(UUID.class));
+        verify(teamService, times(1)).getTeam(any(UUID.class));
     }
 }

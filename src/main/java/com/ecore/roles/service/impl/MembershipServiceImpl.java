@@ -57,4 +57,12 @@ public class MembershipServiceImpl implements MembershipService {
                 .map(MembershipMapper::from)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<MembershipDto> getMemberships(UUID userId, UUID teamId) {
+        log.info("Getting membership for the user {} and team {}", userId, teamId);
+        return membershipRepository.findByUserIdAndTeamId(userId, teamId).stream()
+                .map(MembershipMapper::from)
+                .collect(Collectors.toList());
+    }
 }

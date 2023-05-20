@@ -1,5 +1,6 @@
 package com.ecore.roles.web;
 
+import com.ecore.roles.exception.InvalidArgumentException;
 import com.ecore.roles.model.dto.RoleDto;
 import com.ecore.roles.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,10 +32,14 @@ public class RoleRestController {
 
     @GetMapping(
             produces = {"application/json"})
-    public ResponseEntity<List<RoleDto>> getRoles() {
+    public ResponseEntity<List<RoleDto>> getRoles(@RequestParam(required = false) UUID teamMemberId,
+                                                  @RequestParam(required = false) UUID teamId) {
+        List<RoleDto> roleList = isAFilteredRequest(teamMemberId, teamId) ?
+                                    roleService.getRoles(teamMemberId, teamId) :
+                                    roleService.getRoles();
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(roleService.getRoles());
+                .body(roleList);
     }
 
     @GetMapping(
@@ -44,5 +50,11 @@ public class RoleRestController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(roleService.getRole(roleId));
+    }
+
+    private boolean isAFilteredRequest(UUID teamMemberId, UUID teamId) {
+        if (teamMemberId == null && teamId == null) return false;
+        if (teamMemberId != null && teamId != null) return true;
+        throw new InvalidArgumentException();
     }
 }
